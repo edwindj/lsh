@@ -1,0 +1,73 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage{amsfonts, amsmath, hanging, hyperref, parskip, times}
+\usepackage[numbers]{natbib}
+\usepackage[pdftex]{graphicx}
+\hypersetup{
+  colorlinks,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+
+\let\section=\subsubsection
+\newcommand{\pkg}[1]{{\normalfont\fontseries{b}\selectfont #1}} 
+\let\proglang=\textit
+\let\code=\texttt 
+\renewcommand{\title}[1]{\begin{center}{\bf \LARGE #1}\end{center}}
+\newcommand{\affiliations}{\footnotesize\centering}
+\newcommand{\keywords}{\paragraph{Keywords:}}
+
+\setlength{\topmargin}{-15mm}
+\setlength{\oddsidemargin}{-2mm}
+\setlength{\textwidth}{165mm}
+\setlength{\textheight}{250mm}
+
+\begin{document}
+\pagestyle{empty}
+
+\title{Lsh, nearest neighbor search in high dimensions}
+
+\begin{center}
+  {\bf Edwin de Jonge$^{1,^\star}$}
+\end{center}
+
+\begin{affiliations}
+1. Statistics Netherlands (CBS) \\[-2pt]
+$^\star$Contact author: \href{mailto:e.dejonge@cbs.nl}{e.dejonge@cbs.nl}\\
+\end{affiliations}
+
+\keywords Machine learning, Locality Sensitive Hashing, high dimensional, nearest neighbor 
+
+\vskip 0.8cm
+
+Data sets with many variables and rows are very common nowadays. The number of dimensions $p$ can run from tens to thousands of variables. The number of observations $n$ typically runs from thousands to millions.
+Both a large $n$ and $p$ are challenging for traditional nearest neighbor techniques.
+
+Calculating distance pairs is $O(n^2)$ in memory and time and finding the nearest neighbor is $O(n)$ in time.
+Tree indexing techniques like kd-tree~\citep{bentley1975} were developed to cope with large $n$, however their performance quickly breaks down for $p > 3$~\citep{datar2004}. Locality sensitive hashing (LSH)~\citep{datar2004} is a technique for generating hash numbers from high dimensional data, such 
+that nearby points have identical hashes. This enables efficient nearest neighbor search for (very) high dimensional data sets. LSH has been applied successfully to several problems including text similarity search for finding duplicate web pages \citep{slaney2008}.
+
+R package \pkg{lsh}~\citep{dejonge2014} (in development) is an implementation of locality sensitive hashing in \proglang{R}. We describe the implemented locality sensitive hashing technique, the distance functions it supports and usage of \pkg{lsh}. Suggestions for further tuning performance will be provided.
+
+%% The \proglang, \code, and \pkg macros may be reused
+
+
+%% references: 
+%\nocite{docopt,van2007python}
+\nocite{*}
+\bibliographystyle{chicago}
+\bibliography{lsh}
+
+%% references can alternatively be entered by hand
+%\subsubsection*{References}
+
+%\begin{hangparas}{.25in}{1}
+%AuthorA (2007). Title of a web resource, \url{http://url/of/resource/}.
+
+%AuthorC (2008a). Article example in proceedings. In \textit{useR! 2008, The R
+%User Conference, (Dortmund, Germany)}, pp. 31--37.
+
+%AuthorC (2008b). Title of an article. \textit{Journal name 6}, 13--17.
+%\end{hangparas}
+
+\end{document}
