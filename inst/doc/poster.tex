@@ -10,20 +10,20 @@
 %\usefonttheme[onlymath]{serif}
 \boldmath
 \usepackage[orientation=portrait,size=a0,scale=1.4,debug]{beamerposter}
+\usepackage[numbers]{natbib}
 % change list indention level
 % \setdefaultleftmargin{3em}{}{}{}{}{}
 
 
 %\usepackage{snapshot} % will write a .dep file with all dependencies, allows for easy bundling
-
-\usepackage{array,booktabs,tabularx}
+%\usepackage{array,booktabs,tabularx}
 
 \listfiles
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{{figures/}}
  
-\title{\huge SURF-Face: Face Recognition Under Viewpoint Consistency Constraints}
+\title{\huge Lsh, nearest neighbor search in high dimensions}
 \author{Edwin de Jonge}
 \institute[Statistics Netherlands]{Methodology Department, Statistics Netherlands, Den Haag, Netherlands}
 \date[July. 2nd, 2014]{July 2nd. 2014}
@@ -47,61 +47,22 @@
             % ---------------------------------------------------------%
             % fill each column with content            
             \begin{block}{Introduction}
-              \begin{itemize}
-              \item Most face recognition approaches are sensitive to registration errors
-                \begin{itemize}
-                \item rely on a very good initial alignment and illumination
-                \end{itemize}
-              \item We propose/analyze:
-                \begin{itemize}
-                \item grid-based and dense extraction of local features
-                \item block-based matching accounting for different\\
-	                  viewpoints and registration errors
-                \end{itemize}
-              \end{itemize}              
+            Data sets with many variables and rows are very common nowadays. The number of dimensions $p$ can run from tens to thousands of variables. The number of observations $n$ typically runs from thousands to millions.
+Both a large $n$ and $p$ are challenging for traditional nearest neighbor techniques.
+
+Calculating distance pairs is $O(n^2)$ in memory and time and finding the nearest neighbor is $O(n)$ in time.
+Tree indexing techniques like kd-tree~\citep{bentley1975} were developed to cope with large $n$, however their performance quickly breaks down for $p > 3$~\citep{datar2004}. 
             \end{block}
             \vfill
-            \begin{block}{Feature Extraction}
-              \begin{columns}
-                \begin{column}{.55\textwidth}
-                  \begin{itemize}
-                  \item Interest point based feature extraction
-                    \begin{itemize}
-                    \item SIFT or SURF interest point detector
-                    \item leads to a \alert{very sparse} description
-                    \end{itemize}
-                  \item Grid-based feature extraction
-                    \begin{itemize}
-                    \item overlaid regular grid
-                    \item leads to a \alert{dense} description
-                    \end{itemize}
-                  \end{itemize}
-                \end{column}
-              \end{columns}
-              \vskip-1ex
+            \begin{block}{LSH}
+Locality sensitive hashing (LSH)~\citep{datar2004} is a technique for generating hash numbers from high dimensional data, such 
+that nearby points have identical hashes. This enables efficient nearest neighbor search for (very) high dimensional data sets. LSH has been applied successfully to several problems including text similarity search for finding duplicate web pages \citep{slaney2008}.
             \end{block}
             \vfill
-            \begin{block}{Feature Description}
-              \begin{itemize}
-              \item Scale Invariant Feature Transform (SIFT)
-                \begin{itemize}
-                \item 128-dimensional descriptor, histogram of gradients, scale invariant
-                \end{itemize}
-              \item Speeded Up Robust Features (SURF)
-                \begin{itemize}
-                \item 64-dimensional descriptor, histogram of gradients, scale invariant
-                \end{itemize}
-              \item face recognition: invariance w.r.t. rotation is often not necessary
-                \begin{itemize}
-                \item rotation dependent upright-versions U-SIFT, U-SURF-64, U-SURF-128
-                \end{itemize}
-              \end{itemize}
+            \begin{block}{Distance functions}
             \end{block}
             \vfill
-            \begin{block}{Feature Matching}
-            \end{block}
-            \vfill
-            \begin{block}{Matching Examples for the AR-Face and CMU-PIE Database}
+            \begin{block}{Projections}
             \end{block}
           }
         \end{minipage}
@@ -120,19 +81,14 @@
             % ---------------------------------------------------------%
             % fill each column with content
             
-            \begin{block}{Databases}
+            \begin{block}{Implementation}
             \end{block}
             \vfill
-            \begin{block}{Results: Manually Aligned Faces}
-            \end{block}
-            \vfill
-            \begin{block}{Results: Unaligned Faces}
-            \end{block}
-            \vfill
-            \begin{block}{Results: Partially Occluded Faces}
-            \end{block}
-            \vfill
-            \begin{block}{Conclusions}
+            \begin{block}{References}
+\nocite{*}
+\bibliographystyle{chicago}
+\bibliography{lsh}
+
             \end{block}
           }
           % ---------------------------------------------------------%
