@@ -1,141 +1,155 @@
-% this style was created by Philippe Dreuw and Thomas Deselaers
-\ProvidesPackage{beamerthemeDreuw} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\RequirePackage{tangocolors}
-\selectcolormodel{cmyk}
 \mode<presentation>
+% Nodig om math fonts te laten werken
+\usefonttheme{professionalfonts}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usetikzlibrary{positioning}
 
-\setbeamercolor{headline}{fg=white,bg=black}
-\setbeamercolor{footline}{fg=white, bg=gray}
-\setbeamerfont{footline}{size=\large,series=\tt}
-\setbeamercolor{separation line}{bg=orange}
-\setbeamercolor{title in headline}{fg=white}
-\setbeamercolor{author in headline}{fg=orange}
-\setbeamercolor{institute in headline}{fg=orange}
+% ==== Definieer de CBS kleuren ====
+\RequirePackage{xcolor}
+% hoofdkleuren
+\definecolor{corporateblauw}{RGB}{39,29,108}
+\definecolor{corporatelichtblauw}{RGB}{0,161,205}
+\definecolor{lichtgrijs}{RGB}{236,236,236}
+% aanvullende kleuren
+\definecolor{geel}{RGB}{255,204,0}
+\definecolor{geelvergrijsd}{RGB}{255,182,0}
+\definecolor{oranje}{RGB}{243,146,0}
+\definecolor{oranjevergrijsd}{RGB}{206,124,0}
+\definecolor{rood}{RGB}{233,76,10}
+\definecolor{roodvergrijsd}{RGB}{178,61,2}
+\definecolor{roze}{RGB}{175,14,128}
+\definecolor{rozevergrijsd}{RGB}{130,4,94}
+\definecolor{donkerblauw}{RGB}{0,88,184}
+\definecolor{donkerblauwvergrijsd}{RGB}{22,58,114}
+\definecolor{lichtblauwvergrijsd}{RGB}{5,129,162}
+\definecolor{grasgroen}{RGB}{83,163,29}
+\definecolor{grasgroenvergrijsd}{RGB}{72,130,37}
+\definecolor{appelgroen}{RGB}{175,203,5}
+\definecolor{appelgroenvergrijsd}{RGB}{137,157,12}
 
-\setbeamercolor{framesubtitle}{fg=orange, bg=gray}
-\setbeamercolor{author in head/foot}{fg=orange, bg=black}
-\setbeamercolor{title in head/foot}{fg=orange, bg=black}
 
-\setbeamercolor*{normal text}{fg=yellow, bg=gray}
-\setbeamercolor*{block body}{bg=gray,fg=black}
-\setbeamercolor*{block title}{fg=orange,bg=gray}
-\setbeamerfont{block title}{size=\large,series=\bf}
-\setbeamercolor{upper separation line head}{fg=orange}
+% ==== Kleuren schema ====
+\colorlet{cbskleura}{corporatelichtblauw}
+\colorlet{cbskleurb}{corporateblauw}
 
-\setbeamercolor*{example body}{fg=gray,bg=black}
-\setbeamercolor*{example text}{fg=gray,bg=black}
-\setbeamercolor*{example title}{bg=orange,fg=gray}
+\usepackage{etoolbox}
+\newcommand{\schema}{blauw}
+\newcommand{\kleurschema}[1]{%
+  \renewcommand{\schema}{#1}
+  \ifdefstring{\schema}{blauw}{
+    \colorlet{cbskleura}{corporatelichtblauw}
+    \colorlet{cbskleurb}{corporateblauw}
+  }{}
+  \ifdefstring{\schema}{rood}{
+    \colorlet{cbskleura}{rood}
+    \colorlet{cbskleurb}{roodvergrijsd}
+  }{}
+  \ifdefstring{\schema}{groen}{
+    \colorlet{cbskleura}{grasgroen}
+    \colorlet{cbskleurb}{grasgroenvergrijsd}
+  }{}
+  \ifdefstring{\schema}{roze}{
+    \colorlet{cbskleura}{roze}
+    \colorlet{cbskleurb}{rozevergrijsd}
+  }{}
+}
 
-\setbeamercolor{alerted text}{fg=gray}
+% ==== Logo ====
+\newcommand{\theLogo}{\includegraphics[height=0.8cm]{cbs_logo.pdf}}
+\newcommand{\engelslogo}{
+\renewcommand{\theLogo}{\includegraphics[height=0.8cm]{cbs_logo_engels.pdf}}
+}
 
-%\setbeamercolor{example text}{fg=orange}
-\setbeamercolor{structure}{fg=blue}
 
-\setbeamertemplate{itemize items}[triangle]
-\setbeamertemplate{navigation symbols}{}  % no navigation on a poster
+% ==== Stel de fonts in ==== 
+% Maak het document op in Corbel met Cambria voor headings; Cambria is te 
+% benaderen met \serif
+\RequirePackage{fontspec}
+\setmainfont[Numbers={Lining}]{Corbel}
+\setmonofont[Scale=MatchLowercase]{Consolas}
+\setsansfont{Corbel}
+\newfontfamily\serif{Cambria}
+\RequirePackage[bold-style=ISO]{unicode-math}
+\setmathfont{Cambria Math}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setbeamertemplate{block begin}{
-  \vskip.75ex
-  \begin{beamercolorbox}[rounded=true,shadow=true,leftskip=1cm,colsep*=.75ex]{block title}%
-    \usebeamerfont*{block title}\insertblocktitle
-  \end{beamercolorbox}%
-  {\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}%
-  \usebeamerfont{block body}%
-  \begin{beamercolorbox}[rounded=true,shadow=true,colsep*=.75ex,sep=.75ex,vmode]{block body}%
-    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}%
-  }
-  \setbeamertemplate{block end}{
+
+% ==== Lijsten ====
+\setbeamercolor{enumerate item}{fg=black}
+\setbeamercolor{enumerate subitem}{fg=black}
+\setbeamercolor{enumerate subsubitem}{fg=black}
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{enumerate subitem}{\insertsubenumlabel}
+\setbeamertemplate{enumerate subsubitem}{\insertsubsubenumlabel}
+
+\setbeamercolor{itemize item}{fg=black}
+\setbeamercolor{itemize subitem}{fg=black}
+\setbeamercolor{itemize subsubitem}{fg=black}
+\setbeamertemplate{itemize item}{—}
+\setbeamertemplate{itemize subitem}{—}
+\setbeamertemplate{itemize subsubitem}{—}
+
+% ==== Kleurtjes rondom slides ==== 
+\setbeamercolor{sidebar}{bg=cbskleura}
+\setbeamersize{sidebar width right=0.5cm}
+\setbeamercolor{background canvas}{bg=lichtgrijs}
+\setbeamertemplate{navigation symbols}{}
+
+% ==== Slide titel ====
+\setbeamercolor{frametitle}{fg = white, bg = cbskleura}
+\setbeamertemplate{frametitle}{%
+  \vskip2mm
+  \hspace*{-3mm}\begin{beamercolorbox}[wd=\paperwidth, sep=2mm, rounded=true]{frametitle}
+    \hspace{1mm}\bfseries\serif\LARGE\insertframetitle
   \end{beamercolorbox}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setbeamertemplate{headline}{  
-  \leavevmode
-
-  \begin{beamercolorbox}[wd=\paperwidth]{headline}
-    \begin{columns}[T]
-      \begin{column}{.02\paperwidth}
-      \end{column}
-      \begin{column}{.07\paperwidth}
-        \begin{center}
-          %\includegraphics[width=.6\linewidth]{logos/i6-hks44}
-        \end{center}
-        \vskip1ex
-      \end{column}
-      \begin{column}{.675\paperwidth}
-        \vskip4ex
-        \raggedleft
-        \usebeamercolor{title in headline}{\color{fg}\textbf{\LARGE{\inserttitle}}\\[1ex]}
-        \usebeamercolor{author in headline}{\color{fg}\large{\insertauthor}\\[1ex]}
-        \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}     
-      \end{column}
-      \begin{column}{.25\paperwidth}
-        \vskip1cm
-        \begin{center}
-          %\includegraphics[width=.7\linewidth]{rwthaachenuniversity-whitegray}
-        \end{center}
-        \vskip1.5cm
-      \end{column}
-      \begin{column}{.03\paperwidth}
-      \end{column}
-    \end{columns}
-  \end{beamercolorbox}
-
-  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line head}
-    \rule{0pt}{2pt}
-  \end{beamercolorbox}
+% ==== Slide voet ====
+\setbeamercolor{footline}{bg=white}
+\setbeamertemplate{footline}{%
+  \hfill%
+  \raisebox{3mm}{
+\begin{beamercolorbox}[rounded=true,wd=1.2cm, left]{footline}
+\includegraphics[height=0.6cm]{cbs_logo_geen_tekst.pdf}
+\end{beamercolorbox}}\hspace{-5mm}%
+\begin{beamercolorbox}[wd=0.5cm, right, ht=1.3cm]{frametitle}
+\rule{0pt}{1cm}
+\end{beamercolorbox}%
 }
 
-%  \setbeamertemplate{headline}{  
-%    \leavevmode
-%    \begin{beamercolorbox}[sep=0.5cm,wd=.8\paperwidth]{headline}
-%      \usebeamercolor{title in headline}{\raggedleft\color{fg}\textbf{\LARGE{\inserttitle}}\\[1ex]}
-%      \usebeamercolor{author in headline}{\raggedleft\color{fg}\large{\insertauthor}\\[1ex]}
-%      \usebeamercolor{institute in headline}{\raggedleft\color{fg}\large{\insertinstitute}\\[1ex]}     
-%    \end{beamercolorbox}%
-%    \begin{beamercolorbox}[wd=.2\paperwidth]{logo in headline}
-%      \centering
-%      \LARGE{LOGO}
-%    \end{beamercolorbox}  
-
-
-%}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setbeamertemplate{footline}{
-  \begin{beamercolorbox}[wd=\paperwidth]{upper separation line foot}
-    \rule{0pt}{2pt}
-  \end{beamercolorbox}
-  
-  \leavevmode%
-  \begin{beamercolorbox}[ht=4ex,leftskip=1cm,rightskip=1cm]{author in head/foot}%
-    \texttt{http://www-i6.informatik.rwth-aachen.de}
-    \hfill
-    \texttt{\{dreuw,deselaers\}@cs.rwth-aachen.de}
-    \vskip1ex
-  \end{beamercolorbox}
-  \vskip0pt%
-  \begin{beamercolorbox}[wd=\paperwidth]{lower separation line foot}
-    \rule{0pt}{2pt}
-  \end{beamercolorbox}
+% ==== Titelpagina ====
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    % background
+    \node[shift={(0,0)}] at (current page.south west) { 
+      \begin{tikzpicture}[remember picture, overlay]
+        \draw[cbskleurb, fill=cbskleurb] (0,0) rectangle (current page.north east);
+      \end{tikzpicture}
+    };
+    % logo
+    \node(logo)[rounded corners=1mm, fill=white, inner sep=2mm, anchor=south east, text ragged, shift={(0cm, 1cm)}] at (current page.south east) {
+      \noindent\theLogo\hspace*{0.7cm}
+    };
+    % author
+    \node(author)[rounded corners=1mm, fill=cbskleura, inner sep=4mm, below=0cm of logo.north east, anchor=south east] {
+      \noindent\parbox[t]{0.85\textwidth}{
+        \raggedright\color{white}\Large\bf\serif\insertauthor\par
+      }\hspace*{0.7cm}
+    }; 
+    % title
+    \node(title)[rounded corners=1mm, fill=white, inner sep=4mm, below=0cm of author.north east, anchor=south east] {
+      \noindent\parbox[t]{\textwidth}{
+        \raggedright\color{cbskleura}\huge\bf\serif\inserttitle\par
+        \par\vspace{0.5cm}\large\serif\insertsubtitle\par
+      }\hspace*{0.7cm}
+    };
+    % red bar left on page
+    \node[shift={(-5mm,0)}] at (current page.south east) { 
+      \begin{tikzpicture}[remember picture, overlay]
+        \draw[cbskleura, fill=cbskleura] (0,0) rectangle (5mm, \paperheight);
+      \end{tikzpicture}
+    };
+  \end{tikzpicture}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Display a grid to help align images ... and it looks nice with this color scheme
-%\beamertemplategridbackground[1cm]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\mode<all>
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Local Variables: 
-%%% mode: latex
-%%% TeX-PDF-mode: t
-%%% TeX-master: "poster"
-%%% End: 
