@@ -1,5 +1,5 @@
 \documentclass[final,hyperref={pdfpagelabels=false}]{beamer}
-\usepackage{grffile}
+%\usepackage{grffile}
 \mode<presentation>{
 \usetheme{cbsposter}
 }
@@ -18,7 +18,7 @@
 %\usepackage{snapshot} % will write a .dep file with all dependencies, allows for easy bundling
 %\usepackage{array,booktabs,tabularx}
 
-\listfiles
+%\listfiles
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{{figures/}}
@@ -32,10 +32,9 @@
 \newlength{\columnheight}
 \setlength{\columnheight}{105cm}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-\begin{frame}
+\begin{frame}[fragile]
   \begin{columns}
     % ---------------------------------------------------------%
     % Set up a column 
@@ -47,22 +46,61 @@
             % ---------------------------------------------------------%
             % fill each column with content            
             \begin{block}{Introduction}
-            Data sets with many variables and rows are very common nowadays. The number of dimensions $p$ can run from tens to thousands of variables. The number of observations $n$ typically runs from thousands to millions.
-Both a large $n$ and $p$ are challenging for traditional nearest neighbor techniques.
-
-Calculating distance pairs is $O(n^2)$ in memory and time and finding the nearest neighbor is $O(n)$ in time.
-Tree indexing techniques like kd-tree~\citep{bentley1975} were developed to cope with large $n$, however their performance quickly breaks down for $p > 3$~\citep{datar2004}. 
+            Data sets with many variables ($p$) and rows ($n$) nowadays 
+            very common. 
+            
+                \begin{itemize}
+                \item $p$ can run from $10-1000$ variables. 
+                \item $n$ runs from $10^3$ to $10^6$.
+                \item Curse of dimensionality
+              \end{itemize}
+            
+            ~\\
+            Traditional nearest neighbor techniques:            
+              \begin{itemize}
+             \item Both a large $n$ and $p$ are challenging.
+             \item Calculating distance pairs is $O(n^2)$ 
+             \item Finding the nearest neighbor is $O(n)$ in time.
+             \item kd-tree~\citep{bentley1975} was developed to cope with large $n$, but performance
+             down for $p > 3$~\citep{datar2004}. 
+              \end{itemize}
+            
             \end{block}
             \vfill
             \begin{block}{LSH}
-Locality sensitive hashing (LSH)~\citep{datar2004} is a technique for generating hash numbers from high dimensional data, such 
-that nearby points have identical hashes. This enables efficient nearest neighbor search for (very) high dimensional data sets. LSH has been applied successfully to several problems including text similarity search for finding duplicate web pages \citep{slaney2008}.
+{\bf Locality sensitive hashing (LSH)~\citep{datar2004}}
+\begin{itemize} 
+\item a technique for generating hash numbers
+from high dimensional data
+\item nearby points identical hashes. Map each observation/data point onto an integer.
+\item enables efficient nearest neighbor search for (very) high dimensional data sets.
+\item Is an approximated, randomized algorithm with high probability guarantee correct answer will be found. 
+\end{itemize}~\\
+  Applications:
+  \begin{itemize}
+    \item Image search: bitmaps ($1000$ x $1000$) pixels, form a $10^6$ vector.
+    \item Duplicate web pages~\citep{slaney2008}
+    LSH has been applied successfully to several problems including text similarity search for finding 
+  \end{itemize}
             \end{block}
             \vfill
-            \begin{block}{Distance functions}
+            \begin{block}{Random projection}
+            At the core of LSH is scalar projection:
+            $$
+            h (\vec{v})=  \frac{\vec{x} \cdot \vec{v} + b}{w}
+            $$
+            %$$h(\vec{v}) = \vec{x} \ldot \vec{v} + b$$
+              \begin{itemize}
+              	\item Family of $L$ hash function
+              	\item
+              \end{itemize}
             \end{block}
             \vfill
-            \begin{block}{Distance functions}
+            \begin{block}{Hash functions}
+              \begin{itemize}
+              	\item Family of $L$ hash function
+              	\item
+              \end{itemize}
             \end{block}
           }
         \end{minipage}
@@ -80,8 +118,44 @@ that nearby points have identical hashes. This enables efficient nearest neighbo
             % Since all columns are the same length, it is all nice and tidy.  You have to get the height empirically
             % ---------------------------------------------------------%
             % fill each column with content
-            
+            \begin{block}{Distance functions}
+            {\bf\Large Different distance functions:}
+            \begin{itemize}
+             \item Euclidean: \\
+             Original algorithm: E$^2$LSH.\\
+             Useful for numeric data
+             \item $L^p$ distance, including Manhattan etc.
+             \item Hamming Distance \\
+             Useful for categorical, binary data
+             \item Jaccard Distance \\
+             Useful for textual data.
+            \end{itemize}
+            \end{block}
+            \vfill
             \begin{block}{Implementation}
+              Implemented in {\tt R}:
+              \begin{itemize}
+                \item package {\tt lsh} on {\tt http://github.com/edwindj/lsh}~\\
+                \item {\tt LSHIndex(data, L=10, k=10, w=32, distance=c("euclidean"))} ~\\
+                  \begin{itemize}
+                    \item {\tt data}: data to be indexed
+                    \item {\tt L}: number of hash functions $h_i$ for each $g_k$
+                    \item {\tt k}: number of $g_k$'s
+                    \item {\tt w}: size of quantizer w (bins)
+                    \item Reference object that contains all hashes for data
+                    \item {\tt \$query(data, distance=c("euclidean")}
+                  \end{itemize}~\\
+                \item {\tt\large knn\_lsh(data, k=10, lsh\_index=NULL, distance=NULL)}.
+                 \begin{itemize}
+                   \item {\tt data}: data for which {\tt k} nearest neighbors are found
+                   \item {\tt k}: number of nearest neighbors
+                   \item {\tt lsh\_index}: index to be used for searching neighbors. If {\tt NULL} lsh\_index will be created from {\tt data}.
+                   \item {\tt distance}: distance function, by default euclidean distance. 
+                 \end{itemize}
+              \end{itemize}
+            \end{block}\vfill
+            \begin{block}{Work in progress}
+            {\emph Still in heavy development. Feedback more than welcome!}
             \end{block}
             \vfill
             \begin{block}{References}

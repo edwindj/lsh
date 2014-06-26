@@ -67,7 +67,8 @@
 \setbeamercolor*{normal text}{fg=black, bg=white}
 \setbeamercolor*{block body}{bg=lichtgrijs,fg=black}
 \setbeamercolor*{block title}{fg=white,bg=cbskleura}
-\setbeamerfont{block title}{size=\large,series=\bf}
+\setbeamerfont{block title}{size=\Large,series=\serif}
+\setbeamerfont{block body}{size=\large}
 \setbeamercolor{upper separation line head}{fg=orange}
 
 \setbeamercolor*{example body}{fg=gray,bg=black}
@@ -76,9 +77,11 @@
 
 \setbeamercolor{alerted text}{fg=gray}
 \setbeamercolor{sidebar}{bg=cbskleura}
-\setbeamersize{sidebar width right=0.5cm}
+\setbeamersize{sidebar width right=1cm}
 
 %\setbeamercolor{example text}{fg=orange}
+\setbeamertemplate{itemize items}[circle]
+
 \setbeamercolor{structure}{fg=blue}
 
 \setbeamertemplate{navigation symbols}{}  % no navigation on a poster
@@ -115,16 +118,16 @@
       \begin{column}{.675\paperwidth}
         \vskip4ex
         \raggedleft
-        \usebeamercolor{title in headline}{\color{fg}\textbf{\LARGE{\inserttitle}}\\[1ex]}
-        \usebeamercolor{author in headline}{\color{fg}\large{\insertauthor}\\[1ex]}
-        \usebeamercolor{institute in headline}{\color{fg}\large{\insertinstitute}\\[1ex]}     
+        \usebeamercolor{title in headline}{\color{fg}\serif\textbf{\LARGE{\inserttitle}}\\[1ex]}
+        \usebeamercolor{author in headline}{\color{fg}\serif\large{\insertauthor}\\[1ex]}
+        \usebeamercolor{institute in headline}{\color{fg}\serif\large{\insertinstitute}\\[1ex]}     
       \end{column}
       \begin{column}{.28\paperwidth}
         \vskip1cm
         \hfill
         \begin{beamercolorbox}[wd=.20\paperwidth, rounded=true, left]{normal text}
         \begin{center}
-          \includegraphics[width=.7\linewidth]{cbs_logo_en}
+          \includegraphics[width=.6\linewidth]{cbs_logo_en}
         \end{center}
         \end{beamercolorbox}
         \vskip1.5cm
