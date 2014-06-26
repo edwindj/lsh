@@ -6,6 +6,7 @@
 \usepackage[english]{babel}
 \usepackage[latin1]{inputenc}
 \usepackage{amsmath,amsthm, amssymb, latexsym}
+\usepackage{listings}
 %\usepackage{times}\usefonttheme{professionalfonts}  % obsolete
 %\usefonttheme[onlymath]{serif}
 \boldmath
@@ -34,7 +35,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-\begin{frame}[fragile]
+\begin{frame}[fragile, containsverbatim]
   \begin{columns}
     % ---------------------------------------------------------%
     % Set up a column 
@@ -53,18 +54,16 @@
                 \item $p$ can run from $10-1000$ variables. 
                 \item $n$ runs from $10^3$ to $10^6$.
                 \item Curse of dimensionality
-              \end{itemize}
-            
+              \end{itemize}            
             ~\\
             Traditional nearest neighbor techniques:            
               \begin{itemize}
              \item Both a large $n$ and $p$ are challenging.
              \item Calculating distance pairs is $O(n^2)$ 
              \item Finding the nearest neighbor is $O(n)$ in time.
-             \item kd-tree~\citep{bentley1975} was developed to cope with large $n$, but performance
+             \item kd-tree~\citep{bentley1975} was developed to cope with large $n$, but performance goes
              down for $p > 3$~\citep{datar2004}. 
               \end{itemize}
-            
             \end{block}
             \vfill
             \begin{block}{LSH}
@@ -84,23 +83,26 @@ from high dimensional data
   \end{itemize}
             \end{block}
             \vfill
+            
             \begin{block}{Random projection}
-            At the core of LSH is scalar projection:
+            At the core of LSH is scalar projection.
+            Each data vector $\vec{v} \in \mathbb{R}^n$ is hashed with function $h_i$:
             $$
-            h (\vec{v})=  \frac{\vec{x} \cdot \vec{v} + b}{w}
+            h_i(\vec{v})=  \frac{\vec{x_i} \cdot \vec{v} + b_i}{w}
             $$
-            %$$h(\vec{v}) = \vec{x} \ldot \vec{v} + b$$
-              \begin{itemize}
-              	\item Family of $L$ hash function
-              	\item
-              \end{itemize}
-            \end{block}
-            \vfill
-            \begin{block}{Hash functions}
-              \begin{itemize}
-              	\item Family of $L$ hash function
-              	\item
-              \end{itemize}
+            with $\vec{x_i}$ and $b_i \in [0,w]$ random vectors.
+            
+            Since one $h_i$ is not selective enough $L$ $h_i$'s are combined into 
+            hash function $g_j$:
+            $$
+            g_j = (h_1, \cdots,h_i, \cdots, h_L)
+            $$
+            $g_j$ forms a random partition of $\mathbb{R}^n$. If $g_j(\vec{v}_1)= g_j(\vec{v}_2)$ then $\vec{v}_1)$ en $\vec{v}_2)$ are in the same part and considered nearby.
+            Two increase the number of potential candidate $k$ random partitions are generated.
+            $$
+            (g_1, \cdot, g_k)
+            $$
+            Potential candidates must have at least one of the hash values in common.
             \end{block}
           }
         \end{minipage}
@@ -139,8 +141,8 @@ from high dimensional data
                 \item {\tt LSHIndex(data, L=10, k=10, w=32, distance=c("euclidean"))} ~\\
                   \begin{itemize}
                     \item {\tt data}: data to be indexed
-                    \item {\tt L}: number of hash functions $h_i$ for each $g_k$
-                    \item {\tt k}: number of $g_k$'s
+                    \item {\tt L}: number of hash functions $h_i$ for each $g_j$
+                    \item {\tt k}: number of $g_j$'s
                     \item {\tt w}: size of quantizer w (bins)
                     \item Reference object that contains all hashes for data
                     \item {\tt \$query(data, distance=c("euclidean")}
