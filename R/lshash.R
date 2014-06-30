@@ -15,9 +15,9 @@ gen_rnd_projection <- function(dim, k=32, ...){
 }
 
 
-d <- as.matrix(iris[1:4])
-a <- tcrossprod(d, gen_rnd_projection(4)) > 0
-h <- apply(a, 1, function(r) {as.bit(r)})
-iris$h <- h
-View(iris)
+# d <- as.matrix(iris[1:4])
+# a <- tcrossprod(d, gen_rnd_projection(4)) > 0
+# h <- apply(a, 1, function(r) {as.bit(r)})
+# iris$h <- h
+# View(iris)
 
